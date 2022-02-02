@@ -35,10 +35,6 @@ function translateCoords([x,z]) {
 function draw() {
   background(220);
 
-  push();
-  stroke(255,0,0);
-  pop();
-
   for (board in json) {
     for(unit of json[board]) {
 
