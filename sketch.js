@@ -1,3 +1,40 @@
+const board_locations = {
+	x: {
+		left: {
+			min: 1000,
+			max: 4000,
+		},
+		middle: {
+			min: 6000,
+			max: 9000,
+		},
+		right: {
+			min: 11000,
+			max: 14000,
+		}
+	},
+	z: {
+		bottom: {
+			min: 1000,
+			max: 4000,
+			bench_home: 1642,
+			bench_away: 3412,
+		},
+		middle: {
+			min: 6000,
+			max: 9000,
+			bench_home: 6642,
+			bench_away: 8412,
+		},
+		top: {
+			min: 11000,
+			max: 14000,
+			bench_home: 11610,
+			bench_away: 13410,
+		}
+	}
+}
+
 function preload() {
   json = loadJSON('tft_objects.json')
 }
@@ -5,8 +42,8 @@ function preload() {
 function setup() {
   console.log(json) 
  
-  minX = 50000
-  minZ = 50000
+  minX = 0
+  minZ = 0
   maxX = -50000
   maxZ = -50000
 
@@ -32,8 +69,37 @@ function translateCoords([x,z]) {
     ];
 }
 
+function verticalLine(xCoord) {
+  [xCoord, ] = translateCoords([xCoord, -1])
+  push();
+  line(xCoord, 0, xCoord, 1000);
+  pop();
+}
+
+function horizontalLine(yCoord) {
+  [, yCoord] = translateCoords([-1, yCoord])
+  push();
+  stroke(255, 0, 0);
+  line(0, yCoord, 1000, yCoord);
+  pop();
+}
+
 function draw() {
   background(220);
+
+  verticalLine(board_locations.x.left.min);
+  verticalLine(board_locations.x.left.max);
+  verticalLine(board_locations.x.middle.min);
+  verticalLine(board_locations.x.middle.max);
+  verticalLine(board_locations.x.right.min);
+  verticalLine(board_locations.x.right.max);
+
+  horizontalLine(board_locations.z.bottom.min);
+  horizontalLine(board_locations.z.bottom.max);
+  horizontalLine(board_locations.z.middle.min);
+  horizontalLine(board_locations.z.middle.max);
+  horizontalLine(board_locations.z.top.min);
+  horizontalLine(board_locations.z.top.max);
 
   for (board in json) {
     for(unit of json[board]) {
